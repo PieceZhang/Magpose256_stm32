@@ -1,0 +1,26 @@
+--cpu Cortex-M3
+"magpose_stm32\startup_stm32f103xe.o"
+"magpose_stm32\lis3mdl.o"
+"magpose_stm32\main.o"
+"magpose_stm32\stm32f1xx_it.o"
+"magpose_stm32\stm32f1xx_hal_msp.o"
+"magpose_stm32\stm32f1xx_hal_gpio_ex.o"
+"magpose_stm32\stm32f1xx_hal_i2c.o"
+"magpose_stm32\stm32f1xx_hal.o"
+"magpose_stm32\stm32f1xx_hal_rcc.o"
+"magpose_stm32\stm32f1xx_hal_rcc_ex.o"
+"magpose_stm32\stm32f1xx_hal_gpio.o"
+"magpose_stm32\stm32f1xx_hal_dma.o"
+"magpose_stm32\stm32f1xx_hal_cortex.o"
+"magpose_stm32\stm32f1xx_hal_pwr.o"
+"magpose_stm32\stm32f1xx_hal_flash.o"
+"magpose_stm32\stm32f1xx_hal_flash_ex.o"
+"magpose_stm32\stm32f1xx_hal_exti.o"
+"magpose_stm32\stm32f1xx_hal_tim.o"
+"magpose_stm32\stm32f1xx_hal_tim_ex.o"
+"magpose_stm32\stm32f1xx_hal_uart.o"
+"magpose_stm32\system_stm32f1xx.o"
+--strict --scatter "Magpose_stm32\Magpose_stm32.sct"
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "Magpose_stm32.map" -o Magpose_stm32\Magpose_stm32.axf
