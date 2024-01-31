@@ -49,12 +49,13 @@ DMA_HandleTypeDef hdma_usart1_tx;
 
 /* USER CODE BEGIN PV */
 
-#define REFRESH_RATE 500
+#define REFRESH_RATE 250
 //float magValue[3];
 //float temp;
 
 uint8_t Charbuf[32] = {0};  //µ˜ ‘”√
 uint32_t Numbuf[8] = {0};
+float debugbuf[3*4];
 
 /* USER CODE END PV */
 
@@ -73,41 +74,75 @@ void HexToNum(uint8_t *src, int len);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 #define 	WARNING_LED() 	HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET)
+
+#define		U1_SELECT()			HAL_GPIO_WritePin(U1_GPIO_Port, U1_Pin, GPIO_PIN_SET); HAL_GPIO_WritePin(U2_GPIO_Port, U2_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U3_GPIO_Port, U3_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U4_GPIO_Port, U4_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U5_GPIO_Port, U5_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U6_GPIO_Port, U6_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U7_GPIO_Port, U7_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U8_GPIO_Port, U8_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U9_GPIO_Port, U9_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U10_GPIO_Port, U10_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U11_GPIO_Port, U11_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U12_GPIO_Port, U12_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U13_GPIO_Port, U13_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U14_GPIO_Port, U14_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U15_GPIO_Port, U15_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U16_GPIO_Port, U16_Pin, GPIO_PIN_RESET); 
+#define		U2_SELECT()			HAL_GPIO_WritePin(U1_GPIO_Port, U1_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U2_GPIO_Port, U2_Pin, GPIO_PIN_SET); HAL_GPIO_WritePin(U3_GPIO_Port, U3_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U4_GPIO_Port, U4_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U5_GPIO_Port, U5_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U6_GPIO_Port, U6_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U7_GPIO_Port, U7_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U8_GPIO_Port, U8_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U9_GPIO_Port, U9_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U10_GPIO_Port, U10_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U11_GPIO_Port, U11_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U12_GPIO_Port, U12_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U13_GPIO_Port, U13_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U14_GPIO_Port, U14_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U15_GPIO_Port, U15_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U16_GPIO_Port, U16_Pin, GPIO_PIN_RESET); 
+#define		U3_SELECT()			HAL_GPIO_WritePin(U1_GPIO_Port, U1_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U2_GPIO_Port, U2_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U3_GPIO_Port, U3_Pin, GPIO_PIN_SET); HAL_GPIO_WritePin(U4_GPIO_Port, U4_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U5_GPIO_Port, U5_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U6_GPIO_Port, U6_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U7_GPIO_Port, U7_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U8_GPIO_Port, U8_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U9_GPIO_Port, U9_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U10_GPIO_Port, U10_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U11_GPIO_Port, U11_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U12_GPIO_Port, U12_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U13_GPIO_Port, U13_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U14_GPIO_Port, U14_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U15_GPIO_Port, U15_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U16_GPIO_Port, U16_Pin, GPIO_PIN_RESET); 
+#define		U4_SELECT()			HAL_GPIO_WritePin(U1_GPIO_Port, U1_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U2_GPIO_Port, U2_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U3_GPIO_Port, U3_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U4_GPIO_Port, U4_Pin, GPIO_PIN_SET); HAL_GPIO_WritePin(U5_GPIO_Port, U5_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U6_GPIO_Port, U6_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U7_GPIO_Port, U7_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U8_GPIO_Port, U8_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U9_GPIO_Port, U9_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U10_GPIO_Port, U10_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U11_GPIO_Port, U11_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U12_GPIO_Port, U12_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U13_GPIO_Port, U13_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U14_GPIO_Port, U14_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U15_GPIO_Port, U15_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U16_GPIO_Port, U16_Pin, GPIO_PIN_RESET); 
+#define		U5_SELECT()			HAL_GPIO_WritePin(U1_GPIO_Port, U1_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U2_GPIO_Port, U2_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U3_GPIO_Port, U3_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U4_GPIO_Port, U4_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U5_GPIO_Port, U5_Pin, GPIO_PIN_SET); HAL_GPIO_WritePin(U6_GPIO_Port, U6_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U7_GPIO_Port, U7_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U8_GPIO_Port, U8_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U9_GPIO_Port, U9_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U10_GPIO_Port, U10_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U11_GPIO_Port, U11_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U12_GPIO_Port, U12_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U13_GPIO_Port, U13_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U14_GPIO_Port, U14_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U15_GPIO_Port, U15_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U16_GPIO_Port, U16_Pin, GPIO_PIN_RESET); 
+#define		U6_SELECT()			HAL_GPIO_WritePin(U1_GPIO_Port, U1_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U2_GPIO_Port, U2_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U3_GPIO_Port, U3_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U4_GPIO_Port, U4_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U5_GPIO_Port, U5_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U6_GPIO_Port, U6_Pin, GPIO_PIN_SET); HAL_GPIO_WritePin(U7_GPIO_Port, U7_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U8_GPIO_Port, U8_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U9_GPIO_Port, U9_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U10_GPIO_Port, U10_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U11_GPIO_Port, U11_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U12_GPIO_Port, U12_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U13_GPIO_Port, U13_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U14_GPIO_Port, U14_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U15_GPIO_Port, U15_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U16_GPIO_Port, U16_Pin, GPIO_PIN_RESET); 
+#define		U7_SELECT()			HAL_GPIO_WritePin(U1_GPIO_Port, U1_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U2_GPIO_Port, U2_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U3_GPIO_Port, U3_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U4_GPIO_Port, U4_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U5_GPIO_Port, U5_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U6_GPIO_Port, U6_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U7_GPIO_Port, U7_Pin, GPIO_PIN_SET); HAL_GPIO_WritePin(U8_GPIO_Port, U8_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U9_GPIO_Port, U9_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U10_GPIO_Port, U10_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U11_GPIO_Port, U11_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U12_GPIO_Port, U12_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U13_GPIO_Port, U13_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U14_GPIO_Port, U14_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U15_GPIO_Port, U15_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U16_GPIO_Port, U16_Pin, GPIO_PIN_RESET); 
+#define		U8_SELECT()			HAL_GPIO_WritePin(U1_GPIO_Port, U1_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U2_GPIO_Port, U2_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U3_GPIO_Port, U3_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U4_GPIO_Port, U4_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U5_GPIO_Port, U5_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U6_GPIO_Port, U6_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U7_GPIO_Port, U7_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U8_GPIO_Port, U8_Pin, GPIO_PIN_SET); HAL_GPIO_WritePin(U9_GPIO_Port, U9_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U10_GPIO_Port, U10_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U11_GPIO_Port, U11_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U12_GPIO_Port, U12_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U13_GPIO_Port, U13_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U14_GPIO_Port, U14_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U15_GPIO_Port, U15_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U16_GPIO_Port, U16_Pin, GPIO_PIN_RESET); 
+#define		U9_SELECT()			HAL_GPIO_WritePin(U1_GPIO_Port, U1_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U2_GPIO_Port, U2_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U3_GPIO_Port, U3_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U4_GPIO_Port, U4_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U5_GPIO_Port, U5_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U6_GPIO_Port, U6_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U7_GPIO_Port, U7_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U8_GPIO_Port, U8_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U9_GPIO_Port, U9_Pin, GPIO_PIN_SET); HAL_GPIO_WritePin(U10_GPIO_Port, U10_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U11_GPIO_Port, U11_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U12_GPIO_Port, U12_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U13_GPIO_Port, U13_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U14_GPIO_Port, U14_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U15_GPIO_Port, U15_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U16_GPIO_Port, U16_Pin, GPIO_PIN_RESET); 
+#define		U10_SELECT()			HAL_GPIO_WritePin(U1_GPIO_Port, U1_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U2_GPIO_Port, U2_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U3_GPIO_Port, U3_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U4_GPIO_Port, U4_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U5_GPIO_Port, U5_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U6_GPIO_Port, U6_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U7_GPIO_Port, U7_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U8_GPIO_Port, U8_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U9_GPIO_Port, U9_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U10_GPIO_Port, U10_Pin, GPIO_PIN_SET); HAL_GPIO_WritePin(U11_GPIO_Port, U11_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U12_GPIO_Port, U12_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U13_GPIO_Port, U13_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U14_GPIO_Port, U14_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U15_GPIO_Port, U15_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U16_GPIO_Port, U16_Pin, GPIO_PIN_RESET); 
+#define		U11_SELECT()			HAL_GPIO_WritePin(U1_GPIO_Port, U1_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U2_GPIO_Port, U2_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U3_GPIO_Port, U3_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U4_GPIO_Port, U4_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U5_GPIO_Port, U5_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U6_GPIO_Port, U6_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U7_GPIO_Port, U7_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U8_GPIO_Port, U8_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U9_GPIO_Port, U9_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U10_GPIO_Port, U10_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U11_GPIO_Port, U11_Pin, GPIO_PIN_SET); HAL_GPIO_WritePin(U12_GPIO_Port, U12_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U13_GPIO_Port, U13_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U14_GPIO_Port, U14_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U15_GPIO_Port, U15_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U16_GPIO_Port, U16_Pin, GPIO_PIN_RESET); 
+#define		U12_SELECT()			HAL_GPIO_WritePin(U1_GPIO_Port, U1_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U2_GPIO_Port, U2_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U3_GPIO_Port, U3_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U4_GPIO_Port, U4_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U5_GPIO_Port, U5_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U6_GPIO_Port, U6_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U7_GPIO_Port, U7_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U8_GPIO_Port, U8_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U9_GPIO_Port, U9_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U10_GPIO_Port, U10_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U11_GPIO_Port, U11_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U12_GPIO_Port, U12_Pin, GPIO_PIN_SET); HAL_GPIO_WritePin(U13_GPIO_Port, U13_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U14_GPIO_Port, U14_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U15_GPIO_Port, U15_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U16_GPIO_Port, U16_Pin, GPIO_PIN_RESET); 
+#define		U13_SELECT()			HAL_GPIO_WritePin(U1_GPIO_Port, U1_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U2_GPIO_Port, U2_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U3_GPIO_Port, U3_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U4_GPIO_Port, U4_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U5_GPIO_Port, U5_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U6_GPIO_Port, U6_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U7_GPIO_Port, U7_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U8_GPIO_Port, U8_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U9_GPIO_Port, U9_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U10_GPIO_Port, U10_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U11_GPIO_Port, U11_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U12_GPIO_Port, U12_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U13_GPIO_Port, U13_Pin, GPIO_PIN_SET); HAL_GPIO_WritePin(U14_GPIO_Port, U14_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U15_GPIO_Port, U15_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U16_GPIO_Port, U16_Pin, GPIO_PIN_RESET); 
+#define		U14_SELECT()			HAL_GPIO_WritePin(U1_GPIO_Port, U1_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U2_GPIO_Port, U2_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U3_GPIO_Port, U3_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U4_GPIO_Port, U4_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U5_GPIO_Port, U5_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U6_GPIO_Port, U6_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U7_GPIO_Port, U7_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U8_GPIO_Port, U8_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U9_GPIO_Port, U9_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U10_GPIO_Port, U10_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U11_GPIO_Port, U11_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U12_GPIO_Port, U12_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U13_GPIO_Port, U13_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U14_GPIO_Port, U14_Pin, GPIO_PIN_SET); HAL_GPIO_WritePin(U15_GPIO_Port, U15_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U16_GPIO_Port, U16_Pin, GPIO_PIN_RESET); 
+#define		U15_SELECT()			HAL_GPIO_WritePin(U1_GPIO_Port, U1_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U2_GPIO_Port, U2_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U3_GPIO_Port, U3_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U4_GPIO_Port, U4_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U5_GPIO_Port, U5_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U6_GPIO_Port, U6_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U7_GPIO_Port, U7_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U8_GPIO_Port, U8_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U9_GPIO_Port, U9_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U10_GPIO_Port, U10_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U11_GPIO_Port, U11_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U12_GPIO_Port, U12_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U13_GPIO_Port, U13_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U14_GPIO_Port, U14_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U15_GPIO_Port, U15_Pin, GPIO_PIN_SET); HAL_GPIO_WritePin(U16_GPIO_Port, U16_Pin, GPIO_PIN_RESET); 
+#define		U16_SELECT()			HAL_GPIO_WritePin(U1_GPIO_Port, U1_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U2_GPIO_Port, U2_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U3_GPIO_Port, U3_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U4_GPIO_Port, U4_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U5_GPIO_Port, U5_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U6_GPIO_Port, U6_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U7_GPIO_Port, U7_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U8_GPIO_Port, U8_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U9_GPIO_Port, U9_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U10_GPIO_Port, U10_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U11_GPIO_Port, U11_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U12_GPIO_Port, U12_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U13_GPIO_Port, U13_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U14_GPIO_Port, U14_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U15_GPIO_Port, U15_Pin, GPIO_PIN_RESET); HAL_GPIO_WritePin(U16_GPIO_Port, U16_Pin, GPIO_PIN_SET); 
+
 void U_Select(uint8_t u)  // 0~15
 {
 	switch(u)
 	{
 		case 0:
+			U1_SELECT();
 			break;
 		case 1:
+			U2_SELECT();
 			break;
 		case 2:
+			U3_SELECT();
 			break;
 		case 3:
+			U4_SELECT();
 			break;
 		case 4:
+			U5_SELECT();
 			break;
 		case 5:
+			U6_SELECT();
 			break;
 		case 6:
+			U7_SELECT();
 			break;
 		case 7:
+			U8_SELECT();
 			break;
 		case 8:
+			U9_SELECT();
 			break;
 		case 9:
+			U10_SELECT();
 			break;
 		case 10:
+			U11_SELECT();
 			break;
 		case 11:
+			U12_SELECT();
 			break;
 		case 12:
+			U13_SELECT();
 			break;
 		case 13:
+			U14_SELECT();
 			break;
 		case 14:
+			U15_SELECT();
 			break;
 		case 15:
+			U16_SELECT();
 			break;
 		default:
 			WARNING_LED();
@@ -157,29 +192,19 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-//	uint8_t data=0;
-//	HAL_StatusTypeDef stat;
-//	for(uint8_t i=0; i<=0xff; i++)
-//	{
-//		stat = readByte(&hi2c1, i, 0x0f, &data);  // data should = 0x3D  -> 0x38(0x39) 0x3C(0x3D)
-//		if(data != 0)
-//		{
-//			HAL_Delay(10);
-//			HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);	
-//			data = 0;
-//		}
-//		if(i == 0xff) break;
-//	}
 	
-	if(LIS3MDL_Init(&sensor, &hi2c1, LIS3MDL_Device_0, LIS3MDL_Scale_4G, LIS3MDL_MODE_ULTRAHIGH, LIS3MDL_ODR_7) != HAL_OK)
-		WARNING_LED();
+	for(uint8_t u=0; u<=15; u++)
+	{
+		U_Select(u); 
+		HAL_Delay(10);
+		if(LIS3MDL_Init(&sensor, &hi2c1, LIS3MDL_Device_1, LIS3MDL_Scale_4G, LIS3MDL_MODE_ULTRAHIGH, LIS3MDL_ODR_7) != HAL_OK)
+				WARNING_LED();
+	}
 	
   while (1)
-  {		
-//		magValue[0] = sensor.mag_raw[0];
-//	  magValue[1] = sensor.mag_raw[1];
-//	  magValue[2] = sensor.mag_raw[2];
-//	  temp = sensor.temp_raw;
+  {				
+		HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);	
+		HAL_Delay(REFRESH_RATE);
 		
 		for(uint8_t u=0; u<=15; u++)
 		{
@@ -188,12 +213,21 @@ int main(void)
 				WARNING_LED();
 			p = u * 5;
 			sendbuf[p+0] = 0xaaaa; sendbuf[p+1] = u; sendbuf[p+2] = sensor.mag_raw[0]; sendbuf[p+3] = sensor.mag_raw[1]; sendbuf[p+4] = sensor.mag_raw[2];
+			
+//			if(u==9)
+//			{debugbuf[0]=sensor.mag[0]; debugbuf[1]=sensor.mag[1]; debugbuf[2]=sensor.mag[2];}
+//			else if(u==10)
+//			{debugbuf[3]=sensor.mag[0]; debugbuf[4]=sensor.mag[1]; debugbuf[5]=sensor.mag[2];}
+//			else if(u==14)
+//			{debugbuf[6]=sensor.mag[0]; debugbuf[7]=sensor.mag[1]; debugbuf[8]=sensor.mag[2];}
+//			else if(u==15)
+//			{debugbuf[9]=sensor.mag[0]; debugbuf[10]=sensor.mag[1]; debugbuf[11]=sensor.mag[2];}
+			
+			sensor.mag_raw[0] = 0; sensor.mag_raw[1] = 0; sensor.mag_raw[2] = 0;
+			sensor.mag[0] = 0; sensor.mag[1] = 0; sensor.mag[2] = 0;
 		}
 		HAL_UART_Transmit_DMA(&huart1, (uint8_t *)&sendbuf, 160);
-		
-		HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);	
-		HAL_Delay(REFRESH_RATE);
-		
+			
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
