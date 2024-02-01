@@ -49,7 +49,7 @@ DMA_HandleTypeDef hdma_usart1_tx;
 
 /* USER CODE BEGIN PV */
 
-#define REFRESH_RATE 250
+#define REFRESH_RATE 100
 //float magValue[3];
 //float temp;
 
@@ -197,15 +197,15 @@ int main(void)
 	{
 		U_Select(u); 
 		HAL_Delay(10);
-		if(LIS3MDL_Init(&sensor, &hi2c1, LIS3MDL_Device_1, LIS3MDL_Scale_4G, LIS3MDL_MODE_ULTRAHIGH, LIS3MDL_ODR_7) != HAL_OK)
+		if(LIS3MDL_Init(&sensor, &hi2c1, LIS3MDL_Device_1, LIS3MDL_Scale_16G, LIS3MDL_MODE_ULTRAHIGH, LIS3MDL_ODR_7) != HAL_OK)
 				WARNING_LED();
 	}
 	
   while (1)
-  {				
-		HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);	
+  {
 		HAL_Delay(REFRESH_RATE);
 		
+		HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);	
 		for(uint8_t u=0; u<=15; u++)
 		{
 			U_Select(u); 
@@ -214,19 +214,21 @@ int main(void)
 			p = u * 5;
 			sendbuf[p+0] = 0xaaaa; sendbuf[p+1] = u; sendbuf[p+2] = sensor.mag_raw[0]; sendbuf[p+3] = sensor.mag_raw[1]; sendbuf[p+4] = sensor.mag_raw[2];
 			
-//			if(u==9)
-//			{debugbuf[0]=sensor.mag[0]; debugbuf[1]=sensor.mag[1]; debugbuf[2]=sensor.mag[2];}
+//			if(u==15)
+//			{debugbuf[0]=sensor.mag[0]; debugbuf[1]=sensor.mag[1]; debugbuf[2]=sensor.mag[2];} 
 //			else if(u==10)
 //			{debugbuf[3]=sensor.mag[0]; debugbuf[4]=sensor.mag[1]; debugbuf[5]=sensor.mag[2];}
 //			else if(u==14)
 //			{debugbuf[6]=sensor.mag[0]; debugbuf[7]=sensor.mag[1]; debugbuf[8]=sensor.mag[2];}
 //			else if(u==15)
 //			{debugbuf[9]=sensor.mag[0]; debugbuf[10]=sensor.mag[1]; debugbuf[11]=sensor.mag[2];}
+//			HAL_Delay(50);
 			
 			sensor.mag_raw[0] = 0; sensor.mag_raw[1] = 0; sensor.mag_raw[2] = 0;
 			sensor.mag[0] = 0; sensor.mag[1] = 0; sensor.mag[2] = 0;
 		}
 		HAL_UART_Transmit_DMA(&huart1, (uint8_t *)&sendbuf, 160);
+		HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);	
 			
     /* USER CODE END WHILE */
 
