@@ -61,38 +61,14 @@ void Error_Handler(void);
 #define LED2_GPIO_Port GPIOC
 #define LED1_Pin GPIO_PIN_1
 #define LED1_GPIO_Port GPIOC
-#define U1_Pin GPIO_PIN_0
-#define U1_GPIO_Port GPIOA
-#define U2_Pin GPIO_PIN_1
-#define U2_GPIO_Port GPIOA
-#define U3_Pin GPIO_PIN_2
-#define U3_GPIO_Port GPIOA
-#define U4_Pin GPIO_PIN_3
-#define U4_GPIO_Port GPIOA
-#define U5_Pin GPIO_PIN_4
-#define U5_GPIO_Port GPIOA
-#define U6_Pin GPIO_PIN_5
-#define U6_GPIO_Port GPIOA
-#define U7_Pin GPIO_PIN_6
-#define U7_GPIO_Port GPIOA
-#define U8_Pin GPIO_PIN_7
-#define U8_GPIO_Port GPIOA
-#define U14_Pin GPIO_PIN_10
-#define U14_GPIO_Port GPIOC
-#define U15_Pin GPIO_PIN_11
-#define U15_GPIO_Port GPIOC
-#define U16_Pin GPIO_PIN_12
-#define U16_GPIO_Port GPIOC
-#define U9_Pin GPIO_PIN_3
-#define U9_GPIO_Port GPIOB
-#define U10_Pin GPIO_PIN_4
-#define U10_GPIO_Port GPIOB
-#define U11_Pin GPIO_PIN_5
-#define U11_GPIO_Port GPIOB
-#define U12_Pin GPIO_PIN_8
-#define U12_GPIO_Port GPIOB
-#define U13_Pin GPIO_PIN_9
-#define U13_GPIO_Port GPIOB
+#define DS_Pin GPIO_PIN_5
+#define DS_GPIO_Port GPIOC
+#define STCP_Pin GPIO_PIN_6
+#define STCP_GPIO_Port GPIOC
+#define SHCP_Pin GPIO_PIN_7
+#define SHCP_GPIO_Port GPIOC
+#define MR_Pin GPIO_PIN_8
+#define MR_GPIO_Port GPIOC
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
