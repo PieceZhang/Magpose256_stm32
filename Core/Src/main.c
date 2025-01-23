@@ -49,8 +49,8 @@ DMA_HandleTypeDef hdma_usart1_tx;
 
 /* USER CODE BEGIN PV */
 
-#define REFRESH_DELAY 	100
-#define SENSOR_NUM 			32
+#define REFRESH_DELAY 	10
+#define SENSOR_NUM 			256
 
 //float magValue[3];
 //float temp;
@@ -97,7 +97,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 
-	uint8_t p=0;
+	uint16_t p=0;
 	LIS3MDL_t sensor;
 
   /* USER CODE END 1 */
@@ -141,7 +141,7 @@ int main(void)
 		HC595_DS_LOW();
 		HC595_SCK_LOW(); 
 		HC595_RCK_LOW();
-		HAL_Delay(1);
+//		HAL_Delay(1);
 		
 		if(LIS3MDL_Init(&sensor, &hi2c1, LIS3MDL_Device_1, LIS3MDL_Scale_16G, LIS3MDL_MODE_ULTRAHIGH, LIS3MDL_ODR_7) != HAL_OK)
 				WARNING_LED();
